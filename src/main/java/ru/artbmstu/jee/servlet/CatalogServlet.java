@@ -15,9 +15,6 @@ public class CatalogServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        resp.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = resp.getWriter()){
-            out.println(HeadUtility.catalogName);
-            out.println(HeadUtility.makeHead());
-        }    }
+        req.getRequestDispatcher("catalog.jsp").forward(req, resp);
+    }
 }

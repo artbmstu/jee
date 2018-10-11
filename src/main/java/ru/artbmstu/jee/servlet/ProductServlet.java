@@ -15,10 +15,6 @@ public class ProductServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        resp.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = resp.getWriter()){
-            out.println(HeadUtility.productName);
-            out.println(HeadUtility.makeHead());
-        }
+        req.getRequestDispatcher("product.jsp").forward(req, resp);
     }
 }

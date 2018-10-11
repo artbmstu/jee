@@ -15,10 +15,6 @@ public class OrderServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        resp.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = resp.getWriter()){
-            out.println(HeadUtility.orderName);
-            out.println(HeadUtility.makeHead());
-        }
+        req.getRequestDispatcher("order.jsp").forward(req, resp);
     }
 }
