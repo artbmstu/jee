@@ -1,13 +1,13 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 
-<style type="text/css">
-    a {
+<style type="text/css" >
+    .menu-categories a{
         color: white;
         font-size: 20px;
     }
 
-    h1 {
+    .menu-main {
         color: white;
         font-size: 30px;
         margin-left: 30px;
@@ -23,8 +23,7 @@
 </head>
 <body>
 <div class="menu">
-    <h1><%= request.getParameter("menu")%>
-    </h1>
+    <h1 class="menu-main">${param.get("menu")}></h1>
     <ul class="menu-categories">
         <li><a href="main">Main</a></li>
         <li><a href="catalog">Catalog</a></li>
