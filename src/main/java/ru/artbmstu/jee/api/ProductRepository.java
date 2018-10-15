@@ -1,7 +1,5 @@
 package ru.artbmstu.jee.api;
 
-import com.sun.istack.internal.NotNull;
-import com.sun.istack.internal.Nullable;
 import ru.artbmstu.jee.entity.Product;
 
 import java.util.Collection;
