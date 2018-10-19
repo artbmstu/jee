@@ -1,90 +1,66 @@
 package ru.artbmstu.jee.repository;
 
 import ru.artbmstu.jee.api.ProductRepository;
-import ru.artbmstu.jee.entity.Product;
+import ru.artbmstu.jee.entity.ProductEntity;
 
-import javax.annotation.PostConstruct;
-import javax.enterprise.context.ApplicationScoped;
-import java.util.*;
+import javax.ejb.Stateless;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
+import java.util.List;
 
-@ApplicationScoped
-public class ProductRepositoryBean implements ProductRepository {
+@Stateless
+public class ProductRepositoryBean extends AbstractRepository implements ProductRepository {
 
-    private Map<String, Product> products = new LinkedHashMap<>();
-
-    @PostConstruct
-    private void init(){
-        merge(new Product("Demo product"));
-    }
 
     @Override
-    public Collection<Product> findAll() {
-        return products.values();
+    public List<ProductEntity> findAll() {
+        final CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
+        final CriteriaQuery<ProductEntity> criteriaQuery = criteriaBuilder.createQuery(ProductEntity.class);
+        final TypedQuery<ProductEntity> typedQuery = em.createQuery(criteriaQuery);
+        return typedQuery.getResultList();
     }
 
+
     @Override
-    public Product findById(final String id) {
+    public ProductEntity getById(final String id) {
         if (id == null || id.isEmpty()) return null;
-        return products.get(id);
+        return getEntity(em.createQuery("select e from ProductEntity e where e.idproduct = :id", ProductEntity.class)
+                .setParameter("id", id)
+                .setMaxResults(1));
     }
 
     @Override
-    public Collection<Product> findByIds(final Collection<String> ids) {
-        if (ids == null || ids.isEmpty()) return Collections.emptySet();
-        final Collection<Product> result = new LinkedHashSet<>();
-        ids.forEach(id -> {
-            if (id == null || id.isEmpty()) return;
-            final Product product = findById(id);
-            if (product == null) return;
-            result.add(product);
-        });
-        return result;
+    public ProductEntity findById(String id) {
+        return em.find(ProductEntity.class, id);
     }
 
     @Override
-    public Product merge(final Product product) {
-        if (product == null) return null;
-        final String id = product.getId();
-        if (id == null || id.isEmpty()) return  null;
-        products.put(id, product);
-        return product;
+    public ProductEntity persist(ProductEntity productEntity) {
+        if (productEntity == null) return null;
+        em.persist(productEntity);
+        return productEntity;
     }
 
     @Override
-    public Collection<Product> merge(final Collection<Product> products){
-        if (products == null || products.isEmpty()) return Collections.emptySet();
-        final Collection<Product> result = new LinkedHashSet<>();
-        products.forEach(product -> {
-            if (product == null) return;
-            result.add(merge(product));
-        });
-        return result;
+    public ProductEntity merge(ProductEntity productEntity) {
+        if (productEntity == null) return null;
+        return em.merge(productEntity);
     }
 
     @Override
-    public void removeById(final String id) {
-        if (id == null || id.isEmpty()) return;
-        if (!products.containsKey(id)) return;
-        products.remove(id);
+    public void removeProductEntity(ProductEntity productEntity) {
+        if (productEntity != null) em.remove(productEntity);
     }
 
     @Override
-    public void removeByIds(final Collection<String> ids) {
-        if (ids == null || ids.isEmpty()) return;
-        ids.forEach(this::removeById);
-    }
-
-    @Override
-    public void remove(final Collection<Product> products) {
-        if (products == null || products.isEmpty()) return;
-        products.forEach(product -> {
-            if (product == null) return;
-            this.products.remove(product.getId());
-        });
+    public void removeById(String id) {
+        if (id != null && !id.isEmpty()) em.createQuery("delete from ProductEntity e where e.idproduct = :id");
     }
 
     @Override
     public void removeAll() {
-        products.clear();
+        em.createQuery("delete from ProductEntity").executeUpdate();
     }
 }
