@@ -16,35 +16,35 @@ public class ProductController {
     @Inject
     private ProductRepository productRepository;
 
-    public ProductEntity create(){
+    public void create() {
         final ProductEntity productEntity = new ProductEntity();
-        productEntity.setIdproduct(UUID.randomUUID().toString());
-        productEntity.setProductName("name");
-        productEntity.setProductDescription("description");
-        return productEntity;
+        productEntity.setId(UUID.randomUUID().toString());
+        productEntity.setName("name");
+        productEntity.setDescription("description");
+        productRepository.persist(productEntity);
     }
 
-    public List<ProductEntity> list(){
+    public List<ProductEntity> list() {
         return productRepository.findAll();
     }
 
-    public ProductEntity findById(String id){
+    public ProductEntity findById(String id) {
         return productRepository.findById(id);
     }
 
-    public ProductEntity merge(ProductEntity productEntity){
+    public ProductEntity merge(ProductEntity productEntity) {
         return productRepository.merge(productEntity);
     }
 
-    public void removeAll(){
+    public void removeAll() {
         productRepository.removeAll();
     }
 
-    public void removeById(String id){
+    public void removeById(String id) {
         productRepository.removeById(id);
     }
 
-    public void remove(ProductEntity productEntity){
+    public void remove(ProductEntity productEntity) {
         productRepository.removeProductEntity(productEntity);
     }
 }
