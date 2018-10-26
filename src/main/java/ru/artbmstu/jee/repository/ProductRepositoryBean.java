@@ -62,4 +62,9 @@ public class ProductRepositoryBean extends AbstractRepository implements Product
     public void removeAll() {
         em.createQuery("delete from ProductEntity").executeUpdate();
     }
+
+    @Override
+    public ProductEntity create() {
+        return new ProductEntity();
+    }
 }
