@@ -23,4 +23,6 @@ public interface ProductRepository {
     void removeById(String id);
 
     void removeAll();
+
+    ProductEntity create();
 }
