@@ -8,37 +8,37 @@ import javax.persistence.*;
 @Table(name = "product", schema = "shop", catalog = "")
 @EqualsAndHashCode
 public class ProductEntity {
-    private String idproduct;
-    private String productName;
-    private String productDescription;
+    private String id;
+    private String name;
+    private String description;
 
     @Id
-    @Column(name = "idproduct")
-    public String getIdproduct() {
-        return idproduct;
+    @Column(name = "id")
+    public String getId() {
+        return id;
     }
 
-    public void setIdproduct(String idproduct) {
-        this.idproduct = idproduct;
-    }
-
-    @Basic
-    @Column(name = "product_name")
-    public String getProductName() {
-        return productName;
-    }
-
-    public void setProductName(String productName) {
-        this.productName = productName;
+    public void setId(String id) {
+        this.id = id;
     }
 
     @Basic
-    @Column(name = "product_description")
-    public String getProductDescription() {
-        return productDescription;
+    @Column(name = "name")
+    public String getName() {
+        return name;
     }
 
-    public void setProductDescription(String productDescription) {
-        this.productDescription = productDescription;
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    @Basic
+    @Column(name = "description")
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }
